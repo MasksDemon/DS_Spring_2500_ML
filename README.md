@@ -87,6 +87,10 @@ Runs 8 classifiers on every dataset (up to 10k rows) using 5-fold cross-validati
 - `model_correlation_matrix.csv` — key finding: SVM↔NeuralNet (0.96), SVM↔RandomForest (0.95), AdaBoost↔NaiveBayes lowest (0.58)
 - `model_cosine_similarity_matrix.csv`
 - `model_euclidean_distance_matrix.csv`
+- `model_win_counts.csv` — how many datasets each model wins outright
+- `model_head_to_head.csv` — pairwise dominance: how often model A beats model B
+
+> **Side finding — rank analysis:** High correlation ≠ equal performance. SVM and RandomForest correlate at 0.95 but SVM wins on 56/102 head-to-head matchups vs RandomForest's 41. LogReg dominates NaiveBayes on 91/102 datasets despite both being "linear" models. Top winners: RandomForest (26 datasets), SVM (22), NeuralNet (18), LogReg (14).
 
 ### Step 3 — Clustering (Daniel Ryu) ← Your turn
 
