@@ -1,10 +1,3 @@
-n_entradas= 59
-n_clases= 18
-n_arquivos= 2
-fich1= audiology-std_train_R.dat
-n_patrons1= 172
-fich2= audiology-std_test_R.dat
-n_patrons2= 25
-n_patrons_entrena=86 
-n_patrons_valida= 86
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:eb9626d9aae3fd333941125c818d91135a3ee822641665d20e07e5434c15d250
+size 196

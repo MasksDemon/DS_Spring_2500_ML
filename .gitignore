@@ -1,3 +1,1 @@
-# Large dataset files that exceed GitHub's 100MB limit
-data-20260323T043051Z-3-001/data/miniboone/
-data-20260323T043051Z-3-001/data/connect-4/connect-4_version_b.csv
+# No exclusions — large files handled by Git LFS

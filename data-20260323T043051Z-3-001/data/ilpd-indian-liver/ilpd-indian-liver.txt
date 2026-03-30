@@ -1,8 +1,3 @@
-n_entradas= 9
-n_clases= 2
-n_arquivos= 1
-fich1= ilpd-indian-liver_R.dat
-n_patrons1= 583
-n_patrons_entrena= 292
-n_patrons_valida= 291
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:7335c1141f9c513e3a0bbe574e5e3056f49601e7e73ff38fb4c2d7af79b581b6
+size 147

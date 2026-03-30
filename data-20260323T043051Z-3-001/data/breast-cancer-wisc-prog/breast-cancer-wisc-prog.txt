@@ -1,8 +1,3 @@
-n_entradas= 33
-n_clases= 2
-n_arquivos= 1
-fich1= breast-cancer-wisc-prog_R.dat
-n_patrons1= 198
-n_patrons_entrena= 99
-n_patrons_valida= 99
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:56bf24a3428c5c50fb92bb05f26c5e02406635a8268c1887b9dcd51b36236400
+size 152

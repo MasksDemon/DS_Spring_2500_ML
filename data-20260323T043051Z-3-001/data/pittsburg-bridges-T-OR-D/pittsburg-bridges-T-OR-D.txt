@@ -1,8 +1,3 @@
-n_entradas= 7
-n_clases= 2
-n_arquivos= 1
-fich1= pittsburg-bridges-T-OR-D_R.dat
-n_patrons1= 102
-n_patrons_entrena= 51
-n_patrons_valida= 51
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:e63589c25a7feb19276c9156915ddf9a46c7b77395692fb539dd2ada16a5460a
+size 152

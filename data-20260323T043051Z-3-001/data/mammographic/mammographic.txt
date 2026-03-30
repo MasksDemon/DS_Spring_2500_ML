@@ -1,8 +1,3 @@
-n_entradas= 5
-n_clases= 2
-n_arquivos= 1
-fich1= mammographic_R.dat
-n_patrons1= 961
-n_patrons_entrena= 481
-n_patrons_valida= 480
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:55ccb1d61206ed82579e5ad10713a9251c82ce1c6a3acbfddf571839c18f09e4
+size 142

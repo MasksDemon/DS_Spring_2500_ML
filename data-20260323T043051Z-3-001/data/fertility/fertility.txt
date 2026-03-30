@@ -1,8 +1,3 @@
-n_entradas= 9
-n_clases= 2
-n_arquivos= 1
-fich1= fertility_R.dat
-n_patrons1= 100
-n_patrons_entrena= 50
-n_patrons_valida= 50
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:a2c1f043441e1fcb991bb40f97f1da53ca9ffb0c379b8eccb02150d0f9ff0745
+size 137

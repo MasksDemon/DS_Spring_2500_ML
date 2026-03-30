@@ -1,8 +1,3 @@
-n_entradas= 9
-n_clases= 2
-n_arquivos= 1
-fich1= breast-cancer_R.dat
-n_patrons1= 286
-n_patrons_entrena= 143
-n_patrons_valida= 143
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:e2e2a8a8e35934ed1368b3f47ea4809cae6207f82dd23689a30811d4d6e56c38
+size 143

@@ -1,8 +1,3 @@
-n_entradas= 32
-n_clases= 3
-n_arquivos= 1
-fich1= oocytes_trisopterus_states_5b_R.dat
-n_patrons1= 912
-n_patrons_entrena= 456
-n_patrons_valida= 456
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:68f69f14c13ec28f021effebf501b9858068517d7f29bd527cbe2be6f80a13ad
+size 160

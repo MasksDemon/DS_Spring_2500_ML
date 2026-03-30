@@ -1,8 +1,3 @@
-n_entradas= 24
-n_clases= 4
-n_arquivos= 1
-fich1= wall-following_R.dat
-n_patrons1= 5456
-n_patrons_entrena= 2728
-n_patrons_valida= 2728
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:668a3e997aa63a293a008fbd655627c8b2c15e6354faf5b77f392c1d2fa69154
+size 148

@@ -1,8 +1,3 @@
-n_entradas= 8
-n_clases= 5
-n_arquivos= 1
-fich1= nursery_R.dat
-n_patrons1= 12960
-n_patrons_entrena= 6480
-n_patrons_valida= 6480
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:e317f1da69e0d912136d80e0dca78da604551c4a230ef18f7a433a592b87a2ba
+size 141

@@ -1,8 +1,3 @@
-n_entradas= 64
-n_clases= 100
-n_arquivos= 1
-fich1= plant-shape_R.dat
-n_patrons1= 1600
-n_patrons_entrena= 800
-n_patrons_valida= 800
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:384cf9a79348095cd74ca162a43bff34390393108f440cc4e44271d4b75c4ad0
+size 145

@@ -1,8 +1,3 @@
-n_entradas= 19
-n_clases= 2
-n_arquivos= 1
-fich1= hepatitis_R.dat
-n_patrons1= 155
-n_patrons_entrena= 78
-n_patrons_valida= 77
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:15892581569c7763d07287d83212eb7f66ebb9aa69bbf72e0f2df8fbcc84b26a
+size 138

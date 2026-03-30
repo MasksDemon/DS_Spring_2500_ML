@@ -1,8 +1,3 @@
-n_entradas= 24
-n_clases= 2
-n_arquivos= 1
-fich1= statlog-german-credit_R.dat
-n_patrons1= 1000
-n_patrons_entrena= 500
-n_patrons_valida= 500
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:b8ba582c5122e763121840635be28d8dfd0d50518150ab011bc2d87afc90a2a8
+size 153

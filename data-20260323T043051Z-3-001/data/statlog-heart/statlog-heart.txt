@@ -1,8 +1,3 @@
-n_entradas= 13
-n_clases= 2
-n_arquivos= 1
-fich1= statlog-heart_R.dat
-n_patrons1= 270
-n_patrons_entrena= 135
-n_patrons_valida= 135
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:7f4a3562e0fe17236671e58c8c7e8602c73a092186f905627e311caa5ef7e911
+size 144

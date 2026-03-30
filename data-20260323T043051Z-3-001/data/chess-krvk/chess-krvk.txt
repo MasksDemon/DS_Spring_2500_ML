@@ -1,8 +1,3 @@
-n_entradas= 6
-n_clases= 18
-n_arquivos= 1
-fich1= chess-krvk_R.dat
-n_patrons1= 28056
-n_patrons_entrena= 14028
-n_patrons_valida= 14028
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:f3062c4c0c5623b27f01c2c7a60ac8d0373bfb2fe00a65f5bc1fb324c2a3c261
+size 147

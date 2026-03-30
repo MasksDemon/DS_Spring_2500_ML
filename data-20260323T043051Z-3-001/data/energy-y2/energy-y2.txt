@@ -1,8 +1,3 @@
-n_entradas= 8
-n_clases= 3
-n_arquivos= 1
-fich1= energy-y2_R.dat
-n_patrons1= 768
-n_patrons_entrena= 384
-n_patrons_valida= 384
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:c1415c1c1f8c116f6a0bc0d97b5f69840d5b19b15cbdf3872e52c4dcc310f7ef
+size 139

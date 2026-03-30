@@ -1,8 +1,3 @@
-n_entradas= 8
-n_clases= 3
-n_arquivos= 1
-fich1= abalone_R.dat
-n_patrons1= 4177
-n_patrons_entrena= 2089
-n_patrons_valida= 2088
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:3aa048ae7e98630cd9a944ddc29224e0ce0cb8f689e2afa70d9c7c76b4759b3d
+size 140

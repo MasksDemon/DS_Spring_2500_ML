@@ -1,8 +1,3 @@
-n_entradas= 64
-n_clases= 100
-n_arquivos= 1
-fich1= plant-texture_R.dat
-n_patrons1= 1599
-n_patrons_entrena= 800
-n_patrons_valida= 799
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:9ebe9678635924991878eb18f39d817bd73c31df3ce1089295eb78bea163812f
+size 147

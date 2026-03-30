@@ -1,8 +1,3 @@
-n_entradas= 22
-n_clases= 2
-n_arquivos= 1
-fich1= parkinsons_R.dat
-n_patrons1= 195
-n_patrons_entrena= 98
-n_patrons_valida= 97
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:cbe1c5a4993ff4b3f407b1c19009ea153cab7d037ff6fd49219c95a74f0cf368
+size 139

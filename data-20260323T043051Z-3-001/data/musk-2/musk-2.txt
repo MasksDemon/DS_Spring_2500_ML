@@ -1,8 +1,3 @@
-n_entradas= 166
-n_clases= 2
-n_arquivos= 1
-fich1= musk-2_R.dat
-n_patrons1= 6598
-n_patrons_entrena= 3299
-n_patrons_valida= 3299
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:846129707367c72efaefa77b2fa2e2fbeea5292aa93cdcd8abea4ade90994ddf
+size 141

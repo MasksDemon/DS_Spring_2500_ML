@@ -1,8 +1,3 @@
-n_entradas= 10
-n_clases= 2
-n_arquivos= 1
-fich1= echocardiogram_R.dat
-n_patrons1= 131
-n_patrons_entrena= 66
-n_patrons_valida= 65
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:8f45542c5f942c4296d0238843c63570c789754e8185a94fe611f34f6ed0ecbf
+size 143

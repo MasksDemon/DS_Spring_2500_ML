@@ -1,8 +1,3 @@
-n_entradas= 10
-n_clases= 5
-n_arquivos= 1
-fich1= page-blocks_R.dat
-n_patrons1= 5473
-n_patrons_entrena= 2737
-n_patrons_valida= 2736
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:3c2d1badb8ec1cccc26ccabbf78863798310f53e75a291e0407839ec9429c2ba
+size 145

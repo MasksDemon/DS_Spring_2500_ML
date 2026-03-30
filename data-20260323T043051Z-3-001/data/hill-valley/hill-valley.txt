@@ -1,10 +1,3 @@
-n_entradas= 100
-n_clases= 2
-n_arquivos= 2
-fich1= hill-valley_train_R.dat
-n_patrons1= 606
-fich2= hill-valley_test_R.dat
-n_patrons2= 606
-n_patrons_entrena= 303
-n_patrons_valida= 303
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:0967eaae3e79f6f7b5508a4e0c21a9601b8955c19f1f17d2cc5a0210808a9966
+size 195

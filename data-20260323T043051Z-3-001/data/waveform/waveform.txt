@@ -1,8 +1,3 @@
-n_entradas= 21
-n_clases= 3
-n_arquivos= 1
-fich1= waveform_R.dat
-n_patrons1= 5000
-n_patrons_entrena= 2500
-n_patrons_valida= 2500
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:7d11981bac218c2219086970e158650fa57089358b3268260e4edd1e0bc50181
+size 142

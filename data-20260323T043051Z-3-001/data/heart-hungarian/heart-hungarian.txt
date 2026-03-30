@@ -1,8 +1,3 @@
-n_entradas= 12
-n_clases= 2
-n_arquivos= 1
-fich1= heart-hungarian_R.dat
-n_patrons1= 294
-n_patrons_entrena= 147
-n_patrons_valida= 147
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:80982c6dba51351889e8faf8507e652d3f9c68bf3719442491ee36553d2d056b
+size 146

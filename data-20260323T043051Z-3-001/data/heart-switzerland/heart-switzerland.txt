@@ -1,8 +1,3 @@
-n_entradas= 12
-n_clases= 5
-n_arquivos= 1
-fich1= heart-switzerland_R.dat
-n_patrons1= 123
-n_patrons_entrena= 62
-n_patrons_valida= 61
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:a27bf8c4d5dc744c08b0b2620be5185cef7de07952e6777f26cc6fc8964f86c3
+size 146

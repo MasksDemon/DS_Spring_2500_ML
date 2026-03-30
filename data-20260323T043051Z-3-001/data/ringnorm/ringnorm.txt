@@ -1,8 +1,3 @@
-n_entradas= 20
-n_clases= 2
-n_arquivos= 1
-fich1= ringnorm_R.dat
-n_patrons1= 7400
-n_patrons_entrena= 3700
-n_patrons_valida= 3700
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:32c833ab688d9e3b487bae9b900e653ada5e84f8003d88a11271740b0e59df86
+size 142

@@ -1,8 +1,3 @@
-n_entradas= 57
-n_clases= 2
-n_arquivos= 1
-fich1= spambase_R.dat
-n_patrons1= 4601
-n_patrons_entrena= 2301
-n_patrons_valida= 2300
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:cb03c8e2e72c2f5484985f16231a8ddd95d15f90489489105c0ba72aeb8a0339
+size 142

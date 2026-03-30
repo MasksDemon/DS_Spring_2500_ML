@@ -1,8 +1,3 @@
-n_entradas= 17
-n_clases= 15
-n_arquivos= 1
-fich1= primary-tumor_R.dat
-n_patrons1= 330
-n_patrons_entrena= 165
-n_patrons_valida= 165
-n_conxuntos= 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:b6ab877a43cb51946e07cc1bf66fc0d77d2ce52a078cb958277da155ffecb044
+size 145

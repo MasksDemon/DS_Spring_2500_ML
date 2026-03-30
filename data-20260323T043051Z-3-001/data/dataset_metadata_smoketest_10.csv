@@ -1,11 +1,3 @@
-dataset_name,num_samples,num_features_original,num_features_version_b,num_classes,num_categorical_features,num_continuous_features,num_missing_values,majority_class_percentage,has_version_a,has_version_b,notes
-abalone,4177,8,8,3,0,8,0,34.64208762269572,True,True,
-acute-inflammation,120,6,6,2,0,6,0,50.83333333333333,True,True,
-acute-nephritis,120,6,6,2,0,6,0,58.333333333333336,True,True,
-adult,16281,14,14,2,0,14,0,76.3773723972729,True,True,
-annealing,100,31,31,4,0,31,0,76.0,True,True,
-arrhythmia,452,262,262,13,0,262,0,54.20353982300885,True,True,
-audiology-std,25,59,59,5,0,59,0,44.0,True,True,
-balance-scale,625,4,4,3,0,4,0,46.08,True,True,
-balloons,16,4,4,2,0,4,0,56.25,True,True,
-bank,4521,16,16,2,0,16,0,88.47600088476001,True,True,
+version https://git-lfs.github.com/spec/v1
+oid sha256:6a8f4c7682b7259c6993e55ef1ee302172225fe8c7e646d6f5841c06a1f2b603
+size 754
