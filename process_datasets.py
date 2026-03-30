@@ -13,15 +13,43 @@ MISSING_MARKERS = {"?", "", "na", "nan", "null", "n/a", "none"}
 
 
 def list_dataset_dirs(parent_dir: Path) -> List[Path]:
+    """
+    Collect and alphabetically sort all subdirectories in the given parent directory.
+
+    Args:
+        parent_dir (Path): path to the directory containing dataset folders
+
+    Returns:
+        list of Path objects for each dataset subdirectory, sorted case-insensitively by name
+    """
     return sorted([p for p in parent_dir.iterdir() if p.is_dir()], key=lambda p: p.name.lower())
 
 
 def first_matching_file(folder: Path, pattern: str) -> Optional[Path]:
+    """
+    Return the first file in a folder that matches a glob pattern.
+
+    Args:
+        folder (Path): directory to search in
+        pattern (str): glob pattern to match against (e.g. "*.arff", "*_R.dat")
+
+    Returns:
+        Path to the first matching file sorted alphabetically, or None if no match is found
+    """
     matches = sorted([p for p in folder.glob(pattern) if p.is_file()], key=lambda p: p.name.lower())
     return matches[0] if matches else None
 
 
 def clean_attr_name(raw_name: str) -> str:
+    """
+    Strip whitespace and surrounding quotes from an ARFF attribute name.
+
+    Args:
+        raw_name (str): the raw attribute name string from the ARFF file
+
+    Returns:
+        cleaned attribute name with leading/trailing whitespace and quotes removed
+    """
     name = raw_name.strip()
     if (name.startswith("'") and name.endswith("'")) or (name.startswith('"') and name.endswith('"')):
         return name[1:-1]
@@ -29,6 +57,15 @@ def clean_attr_name(raw_name: str) -> str:
 
 
 def classify_arff_type(type_part: str) -> str:
+    """
+    Classify an ARFF @attribute type declaration as categorical or continuous.
+
+    Args:
+        type_part (str): the type portion of an ARFF @attribute line (e.g. "real", "{a,b,c}")
+
+    Returns:
+        "categorical" if the type is nominal/enumerated or unrecognized, "continuous" if numeric/real/integer
+    """
     decl = type_part.strip()
     decl_no_comment = re.split(r"\s*%.*$", decl, maxsplit=1)[0].strip()
     # Nominal ARFF declarations enumerate values with braces
@@ -40,6 +77,15 @@ def classify_arff_type(type_part: str) -> str:
 
 
 def parse_arff(arff_path: Path) -> Tuple[pd.DataFrame, Dict[str, str]]:
+    """
+    Parse an ARFF file into a DataFrame and a mapping of attribute names to types.
+
+    Args:
+        arff_path (Path): path to the .arff file to parse
+
+    Returns:
+        tuple of (DataFrame containing the data rows, dict mapping column names to "categorical" or "continuous")
+    """
     attr_names: List[str] = []
     attr_types: Dict[str, str] = {}
     data_rows: List[List[str]] = []
@@ -74,6 +120,15 @@ def parse_arff(arff_path: Path) -> Tuple[pd.DataFrame, Dict[str, str]]:
 
 
 def load_r_dat(r_path: Path) -> pd.DataFrame:
+    """
+    Load a whitespace-delimited R .dat file into a DataFrame, dropping any leading index column.
+
+    Args:
+        r_path (Path): path to the _R.dat file
+
+    Returns:
+        DataFrame with the raw dataset contents (index column removed if detected)
+    """
     df = pd.read_csv(r_path, sep=r"\s+", header=0, engine="python", comment="%")
     if df.shape[1] > 1:
         first_col_name = str(df.columns[0]).strip().lower()
@@ -89,6 +144,19 @@ def load_r_dat(r_path: Path) -> pd.DataFrame:
 
 
 def build_version_b(arff_df: pd.DataFrame, attr_types: Dict[str, str]) -> Tuple[pd.DataFrame, int, int, int, int, int, float]:
+    """
+    Build Version B of a dataset: impute missing values, apply StandardScaler to continuous
+    features, and one-hot encode categorical features.
+
+    Args:
+        arff_df (pd.DataFrame): raw DataFrame parsed from an ARFF file
+        attr_types (Dict[str, str]): mapping of column names to "categorical" or "continuous"
+
+    Returns:
+        tuple of (processed DataFrame, num original features, num transformed features,
+        num categorical features, num continuous features, num missing values,
+        majority class percentage)
+    """
     target_col = arff_df.columns[-1]
     feature_cols = list(arff_df.columns[:-1])
     target = arff_df[target_col]
@@ -123,6 +191,19 @@ def build_version_b(arff_df: pd.DataFrame, attr_types: Dict[str, str]) -> Tuple[
 
 
 def build_version_c(arff_df: pd.DataFrame, attr_types: Dict[str, str]) -> Tuple[pd.DataFrame, int, int, int, int, int, float]:
+    """
+    Build Version C of a dataset: impute missing values, apply MinMaxScaler (0-1 range) to
+    continuous features, and one-hot encode categorical features.
+
+    Args:
+        arff_df (pd.DataFrame): raw DataFrame parsed from an ARFF file
+        attr_types (Dict[str, str]): mapping of column names to "categorical" or "continuous"
+
+    Returns:
+        tuple of (processed DataFrame, num original features, num transformed features,
+        num categorical features, num continuous features, num missing values,
+        majority class percentage)
+    """
     target_col = arff_df.columns[-1]
     feature_cols = list(arff_df.columns[:-1])
     target = arff_df[target_col]
@@ -157,6 +238,18 @@ def build_version_c(arff_df: pd.DataFrame, attr_types: Dict[str, str]) -> Tuple[
 
 
 def process_dataset(folder: Path, idx: int, total: int) -> Tuple[Dict[str, object], List[str]]:
+    """
+    Process a single dataset folder by generating versions A, B, and C as CSV files
+    and collecting metadata statistics.
+
+    Args:
+        folder (Path): path to the dataset subdirectory containing .arff and/or _R.dat files
+        idx (int): current dataset index (1-based) for progress display
+        total (int): total number of datasets being processed
+
+    Returns:
+        tuple of (dict containing dataset metadata and success flags, list of warning/error notes)
+    """
     name = folder.name
     notes: List[str] = []
     has_a = False
@@ -232,6 +325,16 @@ def process_dataset(folder: Path, idx: int, total: int) -> Tuple[Dict[str, objec
 
 
 def main(parent_dir: Path) -> None:
+    """
+    Run the full preprocessing pipeline across all dataset subdirectories and save
+    a metadata summary CSV.
+
+    Args:
+        parent_dir (Path): path to the parent directory containing all dataset folders
+
+    Returns:
+        None (writes CSV files to disk and prints a summary to stdout)
+    """
     datasets = list_dataset_dirs(parent_dir)
     total = len(datasets)
     rows: List[Dict[str, object]] = []
