@@ -26,12 +26,14 @@ DS_Spring_2500_ML/
 ├── data-20260323T043051Z-3-001/data/   # 121 UCI dataset folders (tracked via Git LFS)
 ├── notebooks/
 │   └── similarity_analysis_colab.ipynb # Colab notebook for running full analysis
-├── results/                            # Output CSVs (generated, not committed)
+├── results/                            # Output CSVs
 │   ├── dataset_metadata.csv
 │   ├── model_performance_matrix.csv
 │   ├── model_correlation_matrix.csv
 │   ├── model_cosine_similarity_matrix.csv
-│   └── model_euclidean_distance_matrix.csv
+│   ├── model_euclidean_distance_matrix.csv
+│   ├── model_win_counts.csv
+│   └── model_head_to_head.csv
 ├── process_datasets.py                 # Step 1: Preprocess raw datasets into versions A/B/C
 ├── similarity_analysis.py              # Step 2: Run classifiers + compute similarity matrices
 ├── requirements.txt
@@ -76,21 +78,33 @@ By default, the script looks for datasets in `data-20260323T043051Z-3-001/data/`
 python similarity_analysis.py
 ```
 
-Runs 8 classifiers on every dataset (up to 10k rows) using 5-fold cross-validation, then computes three pairwise similarity matrices across all models:
+Runs 8 classifiers on 102 datasets (≤10k rows) using 5-fold cross-validation. Treats each classifier's accuracy vector across datasets as a behavioral fingerprint, then computes three pairwise similarity metrics:
 
-- **Pearson Correlation** — do two models struggle/succeed on the same datasets?
-- **Cosine Similarity** — do two models have the same performance profile shape?
-- **Euclidean Distance** — how far apart are two models' raw accuracy vectors?
+| Metric | What it captures |
+|--------|-----------------|
+| **Pearson Correlation** | Do two models succeed/fail on the same datasets? |
+| **Cosine Similarity** | Do two models have the same performance profile shape? |
+| **Euclidean Distance** | How far apart are two models' raw accuracy vectors? |
 
-**Results (102 datasets, 8 classifiers) — already in `results/`:**
-- `model_performance_matrix.csv` — raw accuracy per model per dataset
-- `model_correlation_matrix.csv` — key finding: SVM↔NeuralNet (0.96), SVM↔RandomForest (0.95), AdaBoost↔NaiveBayes lowest (0.58)
-- `model_cosine_similarity_matrix.csv`
-- `model_euclidean_distance_matrix.csv`
-- `model_win_counts.csv` — how many datasets each model wins outright
-- `model_head_to_head.csv` — pairwise dominance: how often model A beats model B
+**Classifiers:** RandomForest, SVM, NeuralNet, DecisionTree, KNN, NaiveBayes, AdaBoost, LogReg
 
-> **Side finding — rank analysis:** High correlation ≠ equal performance. SVM and RandomForest correlate at 0.95 but SVM wins on 56/102 head-to-head matchups vs RandomForest's 41. LogReg dominates NaiveBayes on 91/102 datasets despite both being "linear" models. Top winners: RandomForest (26 datasets), SVM (22), NeuralNet (18), LogReg (14).
+**Outputs in `results/`:**
+
+| File | Description |
+|------|-------------|
+| `model_performance_matrix.csv` | Raw 5-fold CV accuracy — 102 datasets × 8 models |
+| `model_correlation_matrix.csv` | Pearson correlation between model accuracy vectors |
+| `model_cosine_similarity_matrix.csv` | Cosine similarity between model accuracy vectors |
+| `model_euclidean_distance_matrix.csv` | Euclidean distance between model accuracy vectors |
+| `model_win_counts.csv` | How many datasets each model wins outright |
+| `model_head_to_head.csv` | Pairwise: how often model A beats model B across all datasets |
+
+**Key findings:**
+- SVM ↔ NeuralNet correlation: **0.96** — highest behavioral similarity
+- SVM ↔ RandomForest correlation: **0.95** — nearly identical patterns
+- AdaBoost ↔ NaiveBayes correlation: **0.58** — most behaviorally distinct pair
+- Top dataset winners: RandomForest (26), SVM (22), NeuralNet (18), LogReg (14)
+- High correlation ≠ equal dominance: SVM beats RandomForest head-to-head on 56/102 datasets despite 0.95 correlation
 
 ### Step 3 — Clustering (Daniel Ryu) ← Your turn
 
