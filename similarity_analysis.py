@@ -4,7 +4,7 @@ from pathlib import Path
 from sklearn.metrics.pairwise import cosine_similarity, euclidean_distances
 from sklearn.model_selection import cross_val_score
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
-from sklearn.svm import SVC
+from sklearn.svm import SVC, LinearSVC
 from sklearn.neural_network import MLPClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
@@ -64,8 +64,7 @@ def build_performance_matrix(data_dir, classifiers, cv_folds=5):
             print(f"[{i}/{total}] {name}: failed to load ({e}), skipping")
             continue
 
-        # Skip datasets that are too large (>10k rows) to keep runtime reasonable
-    
+
 
         # Need at least cv_folds samples per class
         unique, counts = np.unique(y, return_counts=True)
@@ -73,8 +72,16 @@ def build_performance_matrix(data_dir, classifiers, cv_folds=5):
             print(f"[{i}/{total}] {name}: too few samples in a class, skipping")
             continue
 
+        # For large datasets, swap in faster classifiers
+        if X.shape[0] > 5000:
+            run_clfs = {k: v for k, v in classifiers.items()}
+            run_clfs["SVM"] = LinearSVC(max_iter=2000, random_state=42)
+            run_clfs["KNN"] = KNeighborsClassifier(n_neighbors=5, algorithm="ball_tree")
+        else:
+            run_clfs = classifiers
+
         row = {}
-        for clf_name, clf in classifiers.items():
+        for clf_name, clf in run_clfs.items():
             try:
                 scores = cross_val_score(clf, X, y, cv=cv_folds, scoring="accuracy")
                 row[clf_name] = scores.mean()
