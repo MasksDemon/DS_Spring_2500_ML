@@ -346,7 +346,7 @@ def main(parent_dir: Path) -> None:
         if notes:
             issues.append((folder.name, notes))
 
-    out = parent_dir / "dataset_metadata.csv"
+    out = Path(__file__).resolve().parent / "results" / "dataset_metadata.csv"
     mdf = pd.DataFrame(rows)
     mdf.to_csv(out, index=False)
 

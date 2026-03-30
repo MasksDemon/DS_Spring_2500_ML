@@ -1,1 +1,11 @@
-# No exclusions — large files handled by Git LFS
+# Claude Code local settings
+.claude/
+
+# Output results (generated files — not committed)
+results/*.csv
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
