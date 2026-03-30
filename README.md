@@ -92,28 +92,26 @@ Outputs to `results/`:
 Uses the similarity matrices from Step 2 to group classifiers with K-Means and hierarchical clustering. Validates cluster quality with silhouette scores.
 
 ### Step 4 — Visualization (Zhiheng)
-Produces heatmaps and dimensionality reduction plots (t-SNE/UMAP) from the similarity and clustering results.
 Generates visual representations of model relationships and clustering results based on the computed similarity matrices and performance data:
 
-Heatmaps – visualize pairwise relationships between models using:
+1, Heatmaps — visualize pairwise relationships between models using:
 Pearson correlation matrix
 Cosine similarity matrix
 Euclidean distance matrix
-Clustering Visualizations – display grouping structure of models:
+2, Clustering Visualizations — display grouping structure of models:
 PCA-based scatter plots for K-Means clustering results
 Hierarchical clustering dendrograms
-Dimensionality Reduction – project high-dimensional model performance into 2D space
+3, Dimensionality Reduction — project high-dimensional model performance into 2D space:
 t-SNE or UMAP plots to reveal patterns and similarities among models
 
 Outputs to results/:
-
 model_correlation_heatmap.png
 model_cosine_heatmap.png
 model_euclidean_heatmap.png
 kmeans_clusters.png
 hierarchical_dendrogram.png
 tsne_projection.png
----
+
 
 ## Running on Google Colab
 
