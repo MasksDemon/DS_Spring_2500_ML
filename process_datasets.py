@@ -229,3 +229,49 @@ def process_dataset(folder: Path, idx: int, total: int) -> Tuple[Dict[str, objec
         "has_version_c": has_c,
         "notes": "; ".join(notes),
     }, notes
+
+
+def main(parent_dir: Path) -> None:
+    datasets = list_dataset_dirs(parent_dir)
+    total = len(datasets)
+    rows: List[Dict[str, object]] = []
+    issues: List[Tuple[str, List[str]]] = []
+
+    for i, folder in enumerate(datasets, 1):
+        row, notes = process_dataset(folder, i, total)
+        rows.append(row)
+        if notes:
+            issues.append((folder.name, notes))
+
+    out = parent_dir / "dataset_metadata.csv"
+    mdf = pd.DataFrame(rows)
+    mdf.to_csv(out, index=False)
+
+    both = sum(1 for r in rows if r["has_version_a"] and r["has_version_b"])
+    any_success = sum(1 for r in rows if r["has_version_a"] or r["has_version_b"])
+
+    reason_counts: Dict[str, int] = {}
+    for _, note_list in issues:
+        for n in note_list:
+            reason_counts[n] = reason_counts.get(n, 0) + 1
+
+    print("\n--- Summary ---")
+    print(f"Total datasets processed: {total}")
+    print(f"Succeeded (both A and B): {both}")
+    print(f"At least one version produced: {any_success}")
+    print(f"Skipped or failed: {total - both}")
+    print(f"Datasets with issues/skips: {len(issues)}")
+    if reason_counts:
+        print("Failure/skip reasons:")
+        for reason, count in sorted(reason_counts.items(), key=lambda x: (-x[1], x[0])):
+            print(f"  - {count}x {reason}")
+    print(f"\nMetadata saved to: {out}")
+
+
+if __name__ == "__main__":
+    data_dir = Path(__file__).resolve().parent / "data-20260323T043051Z-3-001" / "data"
+    if not data_dir.exists():
+        print(f"Data directory not found: {data_dir}")
+        print("Usage: place dataset folders under data-20260323T043051Z-3-001/data/")
+    else:
+        main(data_dir)
