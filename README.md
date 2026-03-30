@@ -70,26 +70,42 @@ Also outputs `results/dataset_metadata.csv` with per-dataset statistics:
 
 By default, the script looks for datasets in `data-20260323T043051Z-3-001/data/` relative to the script location. Each subdirectory should contain an `.arff` file and/or a `_R.dat` file.
 
-### Step 2 — Similarity Analysis (Varun)
+### Step 2 — Similarity Analysis (Varun) ✅ Complete
 
 ```bash
 python similarity_analysis.py
 ```
 
-Runs 8 classifiers on every dataset using 5-fold cross-validation, then computes three pairwise similarity matrices across all models:
+Runs 8 classifiers on every dataset (up to 10k rows) using 5-fold cross-validation, then computes three pairwise similarity matrices across all models:
 
 - **Pearson Correlation** — do two models struggle/succeed on the same datasets?
 - **Cosine Similarity** — do two models have the same performance profile shape?
 - **Euclidean Distance** — how far apart are two models' raw accuracy vectors?
 
-Outputs to `results/`:
+**Results (102 datasets, 8 classifiers) — already in `results/`:**
 - `model_performance_matrix.csv` — raw accuracy per model per dataset
-- `model_correlation_matrix.csv`
+- `model_correlation_matrix.csv` — key finding: SVM↔NeuralNet (0.96), SVM↔RandomForest (0.95), AdaBoost↔NaiveBayes lowest (0.58)
 - `model_cosine_similarity_matrix.csv`
 - `model_euclidean_distance_matrix.csv`
 
-### Step 3 — Clustering (Daniel Ryu)
-Uses the similarity matrices from Step 2 to group classifiers with K-Means and hierarchical clustering. Validates cluster quality with silhouette scores.
+### Step 3 — Clustering (Daniel Ryu) ← Your turn
+
+**Inputs ready in `results/`** — pull and use these directly:
+- `model_correlation_matrix.csv` — recommended primary input for clustering
+- `model_cosine_similarity_matrix.csv` — alternative input
+- `model_performance_matrix.csv` — raw accuracies if needed
+
+**Tasks:**
+- Apply K-Means clustering on the correlation matrix to group similar classifiers
+- Apply hierarchical clustering and generate a dendrogram
+- Validate cluster quality with silhouette scores
+- Key question to answer: do classifiers cluster by algorithm family (e.g. tree-based vs linear) or by behavior?
+
+**To get started:**
+```bash
+git pull origin main
+# results/model_correlation_matrix.csv is your main input
+```
 
 ### Step 4 — Visualization (Zhiheng)
 Generates visual representations of model relationships and clustering results based on the computed similarity matrices and performance data:
