@@ -65,9 +65,7 @@ def build_performance_matrix(data_dir, classifiers, cv_folds=5):
             continue
 
         # Skip datasets that are too large (>10k rows) to keep runtime reasonable
-        if X.shape[0] > 10000:
-            print(f"[{i}/{total}] {name}: too large ({X.shape[0]} rows), skipping")
-            continue
+    
 
         # Need at least cv_folds samples per class
         unique, counts = np.unique(y, return_counts=True)
