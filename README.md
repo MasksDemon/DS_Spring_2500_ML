@@ -126,6 +126,9 @@ git pull origin main
 ```
 
 ### Step 4 — Visualization (Zhiheng)
+```bash
+python visualization.py
+```
 Generates visual representations of model relationships and clustering results based on the computed similarity matrices and performance data:
 
 **Inputs ready in `results/`** — pull and use these directly:
