@@ -96,6 +96,30 @@ def build_performance_matrix(data_dir, classifiers, cv_folds=5):
     return df
 
 
+def compute_rank_analysis(df_performance):
+    """
+    For each dataset, identifies which model wins (highest accuracy).
+    Returns:
+        win_counts   — how many datasets each model wins
+        win_matrix   — pairwise head-to-head: how often model A beats model B
+    """
+    # Win counts: how many datasets each model has the best accuracy
+    winners = df_performance.idxmax(axis=1)
+    win_counts = winners.value_counts().reindex(df_performance.columns, fill_value=0)
+    win_counts = win_counts.rename("wins").to_frame()
+    win_counts["win_rate"] = (win_counts["wins"] / len(df_performance)).round(4)
+
+    # Head-to-head win matrix: entry [A, B] = number of datasets where A > B
+    models = df_performance.columns.tolist()
+    h2h = pd.DataFrame(0, index=models, columns=models)
+    for model_a in models:
+        for model_b in models:
+            if model_a != model_b:
+                h2h.loc[model_a, model_b] = int((df_performance[model_a] > df_performance[model_b]).sum())
+
+    return win_counts, h2h
+
+
 def compute_model_similarities(df_performance):
     """
     Computes similarity matrices for machine learning models based on
@@ -149,9 +173,17 @@ if __name__ == "__main__":
     similarities["cosine_similarity"].to_csv(OUT_DIR / "model_cosine_similarity_matrix.csv")
     similarities["euclidean_distance"].to_csv(OUT_DIR / "model_euclidean_distance_matrix.csv")
 
+    # Step 3: Rank analysis
+    print("=== Computing rank analysis ===\n")
+    win_counts, h2h_matrix = compute_rank_analysis(df_performance)
+    win_counts.to_csv(OUT_DIR / "model_win_counts.csv")
+    h2h_matrix.to_csv(OUT_DIR / "model_head_to_head.csv")
+
     print("Saved to results/:")
     print("  - model_performance_matrix.csv (raw accuracies)")
     print("  - model_correlation_matrix.csv")
     print("  - model_cosine_similarity_matrix.csv")
     print("  - model_euclidean_distance_matrix.csv")
+    print("  - model_win_counts.csv (how many datasets each model wins)")
+    print("  - model_head_to_head.csv (pairwise dominance matrix)")
     print("\nThese matrices are ready for clustering and visualization.")
