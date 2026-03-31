@@ -128,23 +128,21 @@ git pull origin main
 ### Step 4 — Visualization (Zhiheng)
 Generates visual representations of model relationships and clustering results based on the computed similarity matrices and performance data:
 
-1, Heatmaps — visualize pairwise relationships between models using:
-Pearson correlation matrix
-Cosine similarity matrix
-Euclidean distance matrix
-2, Clustering Visualizations — display grouping structure of models:
-PCA-based scatter plots for K-Means clustering results
-Hierarchical clustering dendrograms
-3, Dimensionality Reduction — project high-dimensional model performance into 2D space:
-t-SNE or UMAP plots to reveal patterns and similarities among models
+**Inputs ready in `results/`** — pull and use these directly:
 
-Outputs to results/:
-model_correlation_heatmap.png
-model_cosine_heatmap.png
-model_euclidean_heatmap.png
-kmeans_clusters.png
-hierarchical_dendrogram.png
-tsne_projection.png
+- `model_correlation_matrix.csv` — primary input for similarity heatmaps
+- `model_cosine_similarity_matrix.csv` — alternative similarity view
+- `model_euclidean_distance_matrix.csv` — distance-based comparison
+- `model_performance_matrix.csv` — raw accuracy data for projections and clustering visualizations
+
+**Tasks:**
+
+- Generate heatmaps to visualize relationships between models (correlation, cosine similarity, Euclidean distance)
+- Visualize clustering results using PCA-based scatter plots (e.g. K-Means clusters)
+- Generate hierarchical clustering dendrograms to show model grouping structure
+- Apply dimensionality reduction (t-SNE or UMAP) to project model relationships into 2D space
+- Compare visual patterns across methods to identify consistent groupings of models
+- Key question to answer: do models group by algorithm family (e.g. tree-based vs linear) or by performance behavior?
 
 
 ## Running on Google Colab
