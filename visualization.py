@@ -1,113 +1,89 @@
 import pandas as pd
-import numpy as np
-from pathlib import Path
-
 import matplotlib.pyplot as plt
-import seaborn as sns
 
-from sklearn.decomposition import PCA
-from sklearn.manifold import TSNE
-from sklearn.cluster import KMeans
+# Step 1: Load and Clean Data
 
-from scipy.cluster.hierarchy import dendrogram, linkage
+file_path = "/Users/shawn/Desktop/model_performance_matrix.csv"
 
+# Load dataset with flexible parsing
+df = pd.read_csv(
+    file_path,
+    sep=None,
+    engine='python',
+    encoding='latin1'
+)
 
-RESULTS_DIR = Path(__file__).resolve().parent / "results"
-RESULTS_DIR.mkdir(exist_ok=True)
+# Fix index (dataset names)
+if "Unnamed: 0" in df.columns:
+    df = df.set_index("Unnamed: 0")
 
+# Convert all values to numeric
+df = df.apply(pd.to_numeric, errors='coerce')
 
-def load_data():
-    corr = pd.read_csv(RESULTS_DIR / "model_correlation_matrix.csv", index_col=0)
-    cosine = pd.read_csv(RESULTS_DIR / "model_cosine_similarity_matrix.csv", index_col=0)
-    euclidean = pd.read_csv(RESULTS_DIR / "model_euclidean_distance_matrix.csv", index_col=0)
-    performance = pd.read_csv(RESULTS_DIR / "model_performance_matrix.csv", index_col=0)
-    return corr, cosine, euclidean, performance
+# Handle missing values using mean imputation
+df = df.fillna(df.mean())
 
-
-def plot_heatmap(matrix, title, filename):
-    plt.figure()
-    sns.heatmap(matrix, annot=False)
-    plt.title(title)
-    plt.savefig(RESULTS_DIR / filename)
-    plt.close()
+print("Data successfully cleaned and loaded")
+print(df.head())
 
 
-def run_pca(data):
-    pca = PCA(n_components=2)
-    result = pca.fit_transform(data.values)
+# Step 2: Bar Chart – Average Model Performance
 
-    plt.figure()
-    plt.scatter(result[:, 0], result[:, 1])
+model_mean = df.mean(axis=0).sort_values(ascending=False)
 
-    for i, name in enumerate(data.index):
-        plt.text(result[i, 0], result[i, 1], name)
+plt.figure()
+plt.bar(model_mean.index, model_mean.values)
 
-    plt.title("PCA of Model Performance")
-    plt.xlabel("PC1")
-    plt.ylabel("PC2")
+plt.title("Average Performance of Machine Learning Models")
+plt.xlabel("Models")
+plt.ylabel("Average Score")
 
-    plt.savefig(RESULTS_DIR / "pca.png")
-    plt.close()
+plt.xticks(rotation=45)
+plt.tight_layout()
 
-
-def run_tsne(data):
-    tsne = TSNE(n_components=2, random_state=42, perplexity=5)
-    result = tsne.fit_transform(data.values)
-
-    plt.figure()
-    plt.scatter(result[:, 0], result[:, 1])
-
-    for i, name in enumerate(data.index):
-        plt.text(result[i, 0], result[i, 1], name)
-
-    plt.title("t-SNE of Model Performance")
-
-    plt.savefig(RESULTS_DIR / "tsne.png")
-    plt.close()
+plt.savefig("figure1_bar_chart.png")
+plt.show()
 
 
-def run_kmeans(data):
-    kmeans = KMeans(n_clusters=3, random_state=42)
-    labels = kmeans.fit_predict(data.values)
+# Step 3: Line Chart – Model Performance Trends
 
-    pca = PCA(n_components=2)
-    reduced = pca.fit_transform(data.values)
+df_small = df.iloc[:15]
 
-    plt.figure()
-    plt.scatter(reduced[:, 0], reduced[:, 1], c=labels)
+plt.figure()
 
-    for i, name in enumerate(data.index):
-        plt.text(reduced[i, 0], reduced[i, 1], name)
+for model in df_small.columns:
+    plt.plot(df_small.index, df_small[model], marker='o', label=model)
 
-    plt.title("KMeans Clustering of Models")
+plt.title("Model Performance Across Selected Datasets")
+plt.xlabel("Datasets")
+plt.ylabel("Score")
 
-    plt.savefig(RESULTS_DIR / "kmeans.png")
-    plt.close()
+plt.xticks(rotation=45)
+plt.legend()
+plt.tight_layout()
 
-
-def run_dendrogram(data):
-    linked = linkage(data.values, method='ward')
-
-    plt.figure()
-    dendrogram(linked, labels=data.index.tolist())
-
-    plt.title("Hierarchical Clustering")
-
-    plt.savefig(RESULTS_DIR / "dendrogram.png")
-    plt.close()
+plt.savefig("figure2_line_chart.png")
+plt.show()
 
 
-def main():
-    corr, cosine, euclidean, performance = load_data()
+# Step 4: Heatmap – Model Performance Comparison
 
-    plot_heatmap(corr, "Correlation Matrix", "correlation_heatmap.png")
-    plot_heatmap(cosine, "Cosine Similarity Matrix", "cosine_heatmap.png")
-    plot_heatmap(euclidean, "Euclidean Distance Matrix", "euclidean_heatmap.png")
+plt.figure(figsize=(12, 4))
 
-    run_pca(performance)
-    run_tsne(performance)
-    run_kmeans(performance)
-    run_dendrogram(performance)
+plt.imshow(df_small.T)
+plt.colorbar()
+
+plt.title("Heatmap of Model Performance (Top 15 Datasets)")
+plt.xlabel("Datasets")
+plt.ylabel("Models")
+
+plt.xticks(range(len(df_small.index)), df_small.index, rotation=45, fontsize=8)
+plt.yticks(range(len(df_small.columns)), df_small.columns, fontsize=10)
+
+plt.tight_layout()
+
+plt.savefig("figure3_heatmap.png")
+plt.show()
 
 
 if __name__ == "__main__":
