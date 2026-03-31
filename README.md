@@ -88,8 +88,52 @@ Outputs to `results/`:
 - `model_cosine_similarity_matrix.csv`
 - `model_euclidean_distance_matrix.csv`
 
-### Step 3 — Clustering (Daniel Ryu)
-Uses the similarity matrices from Step 2 to group classifiers with K-Means and hierarchical clustering. Validates cluster quality with silhouette scores.
+### Step 3 — Clustering Analysis (Daniel Ryu)
+
+```bash
+python clustering_analysis.py
+```
+
+Uses the correlation matrix from Step 2 as the primary input to group classifiers by behavioral similarity.
+
+**Input priority:**
+1. `results/model_correlation_matrix.csv` *(recommended — primary)*
+2. `results/model_cosine_similarity_matrix.csv` *(alternative)*
+3. `results/model_performance_matrix.csv` *(fallback — correlation derived on-the-fly)*
+
+**K-Means Clustering**
+- Each classifier is represented by its row in the correlation matrix (i.e., its pairwise correlations with all other models)
+- Sweeps `k = 2` through `k = 6`, selecting the best k by highest silhouette score
+- Elbow method (inertia) is also plotted as a secondary check
+
+**Hierarchical Clustering**
+- Uses `1 − Pearson correlation` as the pairwise distance between classifiers
+- Average linkage (UPGMA) — standard choice for correlation-based distances
+- Dendrogram is cut at the same k chosen by K-Means for consistency
+- Leaf labels are colour-coded by algorithm family
+
+**Silhouette Validation**
+- Overall silhouette score reported for both K-Means and hierarchical results
+- Per-classifier silhouette coefficients plotted to show which models are well-separated vs. borderline
+
+**Key Research Question:** Do classifiers cluster by *algorithm family* (e.g. tree-based vs. linear) or by *behavior* across datasets?
+- Tree-based: RandomForest, DecisionTree, AdaBoost
+- Kernel / Linear: SVM, LogisticRegression
+- Instance-based: KNN
+- Probabilistic: NaiveBayes
+- Neural: NeuralNet
+
+The script automatically compares cluster assignments against known algorithm families and prints an interpretation to stdout.
+
+**Outputs to `results/`:**
+
+| File | Description |
+|------|-------------|
+| `kmeans_elbow_silhouette.png` | Elbow (inertia) + silhouette score vs k |
+| `kmeans_cluster_assignment.png` | Bar chart of cluster assignments, coloured by algorithm family |
+| `kmeans_silhouette_samples.png` | Per-classifier silhouette coefficients |
+| `hierarchical_dendrogram.png` | Dendrogram with family-coloured leaf labels and cluster cut line |
+| `clustering_summary.csv` | Model → algorithm family → K-Means cluster → hierarchical cluster |
 
 ### Step 4 — Visualization (Zhiheng)
 Produces heatmaps and dimensionality reduction plots (t-SNE/UMAP) from the similarity and clustering results.
