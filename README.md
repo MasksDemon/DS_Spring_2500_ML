@@ -36,6 +36,8 @@ DS_Spring_2500_ML/
 │   └── model_head_to_head.csv
 ├── process_datasets.py                 # Step 1: Preprocess raw datasets into versions A/B/C
 ├── similarity_analysis.py              # Step 2: Run classifiers + compute similarity matrices
+├── clustering_analysis.py             # Step 3: K-Means + hierarchical clustering on similarity
+├── visualization.py                   # Step 4: Heatmaps, projections, clustering visuals
 ├── requirements.txt
 └── README.md
 ```
@@ -88,7 +90,24 @@ Runs 8 classifiers on 102 datasets (≤10k rows) using 5-fold cross-validation. 
 
 **Classifiers:** RandomForest, SVM, NeuralNet, DecisionTree, KNN, NaiveBayes, AdaBoost, LogReg
 
-<<<<<<< HEAD
+**Outputs in `results/`:**
+
+| File | Description |
+|------|-------------|
+| `model_performance_matrix.csv` | Raw 5-fold CV accuracy — 102 datasets × 8 models |
+| `model_correlation_matrix.csv` | Pearson correlation between model accuracy vectors |
+| `model_cosine_similarity_matrix.csv` | Cosine similarity between model accuracy vectors |
+| `model_euclidean_distance_matrix.csv` | Euclidean distance between model accuracy vectors |
+| `model_win_counts.csv` | How many datasets each model wins outright |
+| `model_head_to_head.csv` | Pairwise: how often model A beats model B across all datasets |
+
+**Key findings:**
+- SVM ↔ NeuralNet correlation: **0.96** — highest behavioral similarity
+- SVM ↔ RandomForest correlation: **0.95** — nearly identical patterns
+- AdaBoost ↔ NaiveBayes correlation: **0.58** — most behaviorally distinct pair
+- Top dataset winners: RandomForest (26), SVM (22), NeuralNet (18), LogReg (14)
+- High correlation ≠ equal dominance: SVM beats RandomForest head-to-head on 56/102 datasets despite 0.95 correlation
+
 ### Step 3 — Clustering Analysis (Daniel Ryu)
 
 ```bash
@@ -135,46 +154,9 @@ The script automatically compares cluster assignments against known algorithm fa
 | `kmeans_silhouette_samples.png` | Per-classifier silhouette coefficients |
 | `hierarchical_dendrogram.png` | Dendrogram with family-coloured leaf labels and cluster cut line |
 | `clustering_summary.csv` | Model → algorithm family → K-Means cluster → hierarchical cluster |
-=======
-**Outputs in `results/`:**
-
-| File | Description |
-|------|-------------|
-| `model_performance_matrix.csv` | Raw 5-fold CV accuracy — 102 datasets × 8 models |
-| `model_correlation_matrix.csv` | Pearson correlation between model accuracy vectors |
-| `model_cosine_similarity_matrix.csv` | Cosine similarity between model accuracy vectors |
-| `model_euclidean_distance_matrix.csv` | Euclidean distance between model accuracy vectors |
-| `model_win_counts.csv` | How many datasets each model wins outright |
-| `model_head_to_head.csv` | Pairwise: how often model A beats model B across all datasets |
-
-**Key findings:**
-- SVM ↔ NeuralNet correlation: **0.96** — highest behavioral similarity
-- SVM ↔ RandomForest correlation: **0.95** — nearly identical patterns
-- AdaBoost ↔ NaiveBayes correlation: **0.58** — most behaviorally distinct pair
-- Top dataset winners: RandomForest (26), SVM (22), NeuralNet (18), LogReg (14)
-- High correlation ≠ equal dominance: SVM beats RandomForest head-to-head on 56/102 datasets despite 0.95 correlation
-
-### Step 3 — Clustering (Daniel Ryu) ← Your turn
-
-**Inputs ready in `results/`** — pull and use these directly:
-- `model_correlation_matrix.csv` — recommended primary input for clustering
-- `model_cosine_similarity_matrix.csv` — alternative input
-- `model_performance_matrix.csv` — raw accuracies if needed
-
-**Tasks:**
-- Apply K-Means clustering on the correlation matrix to group similar classifiers
-- Apply hierarchical clustering and generate a dendrogram
-- Validate cluster quality with silhouette scores
-- Key question to answer: do classifiers cluster by algorithm family (e.g. tree-based vs linear) or by behavior?
-
-**To get started:**
-```bash
-git pull origin main
-# results/model_correlation_matrix.csv is your main input
-```
->>>>>>> e9c94106532a9f0c609de0437d354e887fd807ce
 
 ### Step 4 — Visualization (Zhiheng)
+
 ```bash
 python visualization.py
 ```
