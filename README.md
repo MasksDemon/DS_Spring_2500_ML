@@ -74,7 +74,7 @@ Also outputs `results/dataset_metadata.csv` with per-dataset statistics:
 
 By default, the script looks for datasets in `data-20260323T043051Z-3-001/data/` relative to the script location. Each subdirectory should contain an `.arff` file and/or a `_R.dat` file.
 
-### Step 2 — Similarity Analysis (Varun) ✅ Complete
+### Step 2 — Similarity Analysis (Varun)
 
 ```bash
 python similarity_analysis.py
