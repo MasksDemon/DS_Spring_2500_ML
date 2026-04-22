@@ -71,7 +71,7 @@ def load_similarity_matrix(primary: Path, fallback_cosine: Path,
     Load the model similarity matrix.
 
     Priority:
-      1. Correlation matrix  (primary — recommended)
+      1. Correlation matrix  (primary -- recommended)
       2. Cosine-similarity matrix (alternative)
       3. Performance matrix transposed  (last resort)
 
@@ -175,7 +175,7 @@ def plot_elbow_silhouette(k_range, inertias, sil_scores, best_k, out_path: Path)
     axes[0].plot(k_range, inertias, marker="o", color="steelblue", linewidth=2)
     axes[0].axvline(best_k, color="red", linestyle="--", linewidth=1,
                     label=f"Best k = {best_k}")
-    axes[0].set_title("Elbow Method — K-Means Inertia")
+    axes[0].set_title("Elbow Method -- K-Means Inertia")
     axes[0].set_xlabel("Number of Clusters k")
     axes[0].set_ylabel("Inertia")
     axes[0].set_xticks(k_range)
@@ -255,7 +255,7 @@ def plot_dendrogram(Z, models, best_k: int, out_path: Path, method: str = "avera
         leaf_font_size=11,
     )
     ax.axhline(y=color_threshold, color="grey", linestyle="--", linewidth=1,
-               label=f"Cut → {best_k} clusters")
+               label=f"Cut -> {best_k} clusters")
 
     # Colour the leaf labels by algorithm family
     xlabels = ax.get_xticklabels()
@@ -266,9 +266,9 @@ def plot_dendrogram(Z, models, best_k: int, out_path: Path, method: str = "avera
         lbl.set_fontweight("bold")
 
     ax.set_title(f"Hierarchical Clustering Dendrogram ({method} linkage, "
-                 f"distance = 1 − correlation)\nLeaf colour = algorithm family")
+                 f"distance = 1 - correlation)\nLeaf colour = algorithm family")
     ax.set_xlabel("Classifier")
-    ax.set_ylabel("1 − Pearson Correlation (distance)")
+    ax.set_ylabel("1 - Pearson Correlation (distance)")
     ax.legend(fontsize=9)
 
     # Add a compact family colour legend
@@ -288,7 +288,7 @@ def plot_dendrogram(Z, models, best_k: int, out_path: Path, method: str = "avera
 
 def plot_silhouette_samples(sim_matrix: pd.DataFrame, labels: dict,
                             best_k: int, out_path: Path):
-    """Per-classifier silhouette scores — shows which models are well-separated."""
+    """Per-classifier silhouette scores -- shows which models are well-separated."""
     X       = sim_matrix.values
     models  = list(sim_matrix.index)
     y       = np.array([labels[m] for m in models])
@@ -365,17 +365,17 @@ def analyse_family_vs_cluster(kmeans_labels: dict, hier_labels: dict) -> str:
     km_linear_clusters = {kmeans_labels[m] for m in linear_models if m in kmeans_labels}
 
     if len(km_tree_clusters) == 1:
-        lines.append("  * Tree-based models (RF, DT, AdaBoost) share ONE K-Means cluster → "
+        lines.append("  * Tree-based models (RF, DT, AdaBoost) share ONE K-Means cluster -> "
                      "they cluster by algorithm family.")
     else:
-        lines.append("  * Tree-based models span multiple K-Means clusters → "
+        lines.append("  * Tree-based models span multiple K-Means clusters -> "
                      "behavioural similarity overrides family membership.")
 
     if len(km_linear_clusters) == 1:
-        lines.append("  * Linear/kernel models (SVM, LogReg) share ONE K-Means cluster → "
+        lines.append("  * Linear/kernel models (SVM, LogReg) share ONE K-Means cluster -> "
                      "family grouping holds.")
     else:
-        lines.append("  * Linear/kernel models span multiple clusters → "
+        lines.append("  * Linear/kernel models span multiple clusters -> "
                      "dataset-driven behaviour dominates.")
 
     return "\n".join(lines), df
@@ -388,20 +388,20 @@ def analyse_family_vs_cluster(kmeans_labels: dict, hier_labels: dict) -> str:
 if __name__ == "__main__":
     OUT_DIR.mkdir(exist_ok=True)
 
-    # ── Load ──────────────────────────────────────────────────────────────
+    # -- Load --------------------------------------------------------------
     print("Loading similarity matrix...")
     sim_matrix, source = load_similarity_matrix(CORR_CSV, COSINE_CSV, PERFORMANCE_CSV)
     print(f"  Source : {source}")
     print(f"  Models : {list(sim_matrix.index)}")
     print(f"  Shape  : {sim_matrix.shape}")
 
-    # ── K-Means on correlation matrix ─────────────────────────────────────
+    # -- K-Means on correlation matrix -------------------------------------
     print("\n=== K-Means Clustering (on correlation matrix) ===")
     kmeans_labels, best_k, k_range, inertias, sil_scores = kmeans_on_correlation(sim_matrix)
 
     print(f"  Best k (highest silhouette): {best_k}")
     for k, s in zip(k_range, sil_scores):
-        marker = " ← best" if k == best_k else ""
+        marker = " <-- best" if k == best_k else ""
         print(f"    k={k}  silhouette={s:.4f}{marker}")
 
     print("\n  Cluster assignments (K-Means):")
@@ -418,8 +418,8 @@ if __name__ == "__main__":
     plot_silhouette_samples(sim_matrix, kmeans_labels, best_k,
                             OUT_DIR / "kmeans_silhouette_samples.png")
 
-    # ── Hierarchical clustering (1 - correlation distance) ────────────────
-    print("\n=== Hierarchical Clustering (distance = 1 − correlation, average linkage) ===")
+    # -- Hierarchical clustering (1 - correlation distance) ----------------
+    print("\n=== Hierarchical Clustering (distance = 1 - correlation, average linkage) ===")
     Z, models = hierarchical_on_correlation(sim_matrix, method="average")
 
     hier_raw    = fcluster(Z, t=best_k, criterion="maxclust")
@@ -441,11 +441,11 @@ if __name__ == "__main__":
     plot_dendrogram(Z, models, best_k,
                     OUT_DIR / "hierarchical_dendrogram.png", method="average")
 
-    # ── Key question: family vs behaviour ─────────────────────────────────
+    # -- Key question: family vs behaviour ---------------------------------
     summary_text, summary_df = analyse_family_vs_cluster(kmeans_labels, hier_labels)
     print(summary_text)
 
-    # ── Save summary CSV ──────────────────────────────────────────────────
+    # -- Save summary CSV --------------------------------------------------
     summary_df.to_csv(OUT_DIR / "clustering_summary.csv", index=False)
     print(f"\n  Saved: clustering_summary.csv")
 
